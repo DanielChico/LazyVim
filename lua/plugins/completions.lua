@@ -1,7 +1,24 @@
 return {
+  -- {
+  --   "zbirenbaum/copilot-cmp",
+  --   enabled = false,
+  -- },
+  -- { "giuxtaposition/blink-cmp-copilot", enabled = false },
   {
-    "zbirenbaum/copilot-cmp",
-    enabled = false,
+    "saghen/blink.cmp",
+    opts = function(_, opts)
+      local copilotIndex = nil
+      for i, source in ipairs(opts.sources.default) do
+        if source == "copilot" then
+          copilotIndex = i
+          break
+        end
+      end
+
+      if copilotIndex then
+        table.remove(opts.sources.default, copilotIndex)
+      end
+    end,
   },
   {
     "zbirenbaum/copilot.lua",
@@ -20,45 +37,57 @@ return {
     opts = {
       suggestion = {
         enabled = true,
-        auto_trigger = true,
-      },
-    },
-    keys = {
-      {
-        "<leader>ts",
-        function()
-          if require("copilot.client").is_disabled() then
-            require("copilot.command").enable()
-          else
-            require("copilot.command").disable()
-          end
-        end,
-        desc = "Toggle (Copilot)",
+        auto_trigger = false,
       },
     },
   },
   {
-    "hrsh7th/nvim-cmp",
-    dependencies = { "zbirenbaum/copilot.lua" },
-    ---@param opts cmp.ConfigSchema
-    opts = function(_, opts)
-      local cmp = require("cmp")
-      opts.mapping = vim.tbl_extend("force", opts.mapping, {
-        ["<C-j>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<C-k>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-      })
-    end,
+    "saghen/blink.cmp",
+    opts = {
+      keymap = {
+        ["<C-j>"] = {
+          "select_next",
+          "snippet_forward",
+          "fallback",
+        },
+        ["<C-k>"] = {
+          "select_prev",
+          "snippet_backward",
+          "fallback",
+        },
+      },
+      completion = {
+        menu = {
+          auto_show = false,
+        },
+        ghost_text = {
+          enabled = false,
+        },
+      },
+    },
   },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   dependencies = { "zbirenbaum/copilot.lua" },
+  --   ---@param opts cmp.ConfigSchema
+  --   opts = function(_, opts)
+  --     local cmp = require("cmp")
+  --     opts.mapping = vim.tbl_extend("force", opts.mapping, {
+  --       ["<C-j>"] = cmp.mapping(function(fallback)
+  --         if cmp.visible() then
+  --           cmp.select_next_item()
+  --         else
+  --           fallback()
+  --         end
+  --       end, { "i", "s" }),
+  --       ["<C-k>"] = cmp.mapping(function(fallback)
+  --         if cmp.visible() then
+  --           cmp.select_prev_item()
+  --         else
+  --           fallback()
+  --         end
+  --       end, { "i", "s" }),
+  --     })
+  --   end,
+  -- },
 }

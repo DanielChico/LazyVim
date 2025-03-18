@@ -14,8 +14,8 @@ return {
           settings = {
             basedpyright = {
               analysis = {
-                typeCheckingMode = "strict",
-                diagnosticMode = "workspace",
+                typeCheckingMode = "standard",
+                diagnosticMode = "openFilesOnly",
               },
             },
             python = {
@@ -26,8 +26,15 @@ return {
       },
     },
   },
+  -- {
+  --   "linux-cultist/venv-selector.nvim",
+  --   enabled = false,
+  -- },
   {
-    "linux-cultist/venv-selector.nvim",
-    enabled = false,
+    "neovim/nvim-lspconfig",
+    opts = function()
+      local keys = require("lazyvim.plugins.lsp.keymaps").get()
+      keys[#keys + 1] = { "<c-k>", false, mode = "i" }
+    end,
   },
 }
