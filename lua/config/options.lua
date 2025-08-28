@@ -14,3 +14,4 @@ vim.opt.spell = true
 vim.g.snacks_animate = false
 vim.g.ai_cmp = true
 vim.g.root_spec = { "cwd" }
+vim.lsp.set_log_level("off")
