@@ -1,9 +1,4 @@
 return {
-  -- {
-  --   "zbirenbaum/copilot-cmp",
-  --   enabled = false,
-  -- },
-  -- { "giuxtaposition/blink-cmp-copilot", enabled = false },
   {
     "saghen/blink.cmp",
     opts = function(_, opts)
