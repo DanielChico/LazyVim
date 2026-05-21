@@ -9,9 +9,11 @@ local lazyterm = function()
 end
 vim.keymap.set("n", "<c-\\>", lazyterm, { desc = "Terminal (Root Dir)" })
 vim.keymap.set("t", "<C-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
-vim.keymap.set("i", "<C-/>", "<Esc>:Commentary<CR>")
-vim.keymap.set("n", "<C-/>", "gcc", { remap = true })
-vim.keymap.set("v", "<C-/>", "gc", { remap = true })
+for _, key in ipairs({ "<C-/>", "<C-_>" }) do
+  vim.keymap.set("n", key, "gcc", { remap = true, desc = "Comment line" })
+  vim.keymap.set("v", key, "gc", { remap = true, desc = "Comment selection" })
+  vim.keymap.set("i", key, "<Esc>gccA", { remap = true, desc = "Comment line" })
+end
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
 vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<cr>", { desc = "Restart LSP" })
 vim.keymap.set("n", "<leader>tv", function()
